@@ -59,7 +59,7 @@ app.post('/send-email', (req, res) => {
 
 
 app.get('/',(req,res)=>{
-  res.send("hello  user")
+  res.send("hello user")
 })
 
 
@@ -68,4 +68,5 @@ app.listen(PORT, () => {
 });
 
  
+
 
