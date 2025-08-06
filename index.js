@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,8 +40,6 @@ app.post('/send-email', (req, res) => {
       `Additional Information: ${additionalInfo || 'N/A'}\n`+
       `Public-IPAddress :${ipAddress}\n`+
       `utm_campaign : ${req.body.utm_campaign??''}\n`+
-      `utm_content:${req.body.utm_content??''}\n`+
-      `utm_medium:${req.body.utm_medium??''}\n`+
       `utm_source:${req.body.utm_source??''}\n`+
       `utm_term:${req.body.utm_term??''}`
   };
@@ -68,5 +66,6 @@ app.listen(PORT, () => {
 });
 
  
+
 
 
