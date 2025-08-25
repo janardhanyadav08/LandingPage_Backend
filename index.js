@@ -3,11 +3,13 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const path = require('path');
+const axios=require('axios');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,12 +62,36 @@ app.get('/',(req,res)=>{
   res.send("hello user")
 })
 
+ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbydZKEloPNHBcI9Y69R83_JEVTXzvvc4iIKjGrpTQSAQwOTpdc9pxCtFtQO6dA2Wjfj/exec";
+app.post("/utm", async (req, res) => {
+     try {
+        const { utm_source, utm_medium, utm_campaign, utm_term, utm_content } = req.body;
+        
+
+        const response = await axios.post(GOOGLE_SHEET_URL, {
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            utm_term,
+            utm_content,
+            timestamp: new Date().toISOString()
+        });
+
+        res.json({ success: true, message: "UTM data sent to Google Sheets", googleResponse: response.data });
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).json({ success: false, message: "Error sending data to Google Sheets" });
+    }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
  
+
 
 
 
