@@ -67,14 +67,14 @@ app.post("/utm", async (req, res) => {
      try {
         const { utm_source, utm_medium, utm_campaign, utm_term, utm_content } = req.body;
         
-
+        const timestamp = new Date().toISOString()
         const response = await axios.post(GOOGLE_SHEET_URL, {
             utm_source,
             utm_medium,
             utm_campaign,
             utm_term,
             utm_content,
-            timestamp: new Date().toISOString()
+            timestamp,
         });
 
         res.json({ success: true, message: "UTM data sent to Google Sheets", googleResponse: response.data });
@@ -91,6 +91,7 @@ app.listen(PORT, () => {
 });
 
  
+
 
 
 
