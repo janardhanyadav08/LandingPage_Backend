@@ -86,11 +86,29 @@ app.post("/utm", async (req, res) => {
 
 
 
+const Google_Sheet="https://script.google.com/macros/s/AKfycby78AWefgKqbJfnan_1qstVod7q3lP0uWImfNYFdev7Q32KxNlP_OHT8oNs_iVlYEUXEg/exec"
+app.post("/track-Expodite", async (req, res) => {
+  try {
+    const data = req.body;
+   
+
+    const response = await axios.post(Google_Sheet, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    res.json({ status: "success", googleResponse: response.data });
+  } catch (error) {
+    console.error("Error sending to Google Sheets:", error.message);
+    res.status(500).json({ status: "error", error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
  
+
 
 
 
