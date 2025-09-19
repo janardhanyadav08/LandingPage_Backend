@@ -4,15 +4,17 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const path = require('path');
 const axios=require('axios');
-require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: "*", 
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));]
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -24,7 +26,6 @@ const transporter = nodemailer.createTransport({
 
 app.post('/send-email', (req, res) => {
   const { firstName, phone, email, company, additionalInfo } = req.body;
- res.send(req.body);
     const ipAddress =
     req.headers['x-forwarded-for']?.split(',')[0] ||
     req.socket?.remoteAddress ||
@@ -32,6 +33,7 @@ app.post('/send-email', (req, res) => {
   
   const mailOptions = {
     from: email,
+    replyTo: email,
     to: 'info@expodite.in',
     subject: 'New Contact Form Submission',
     text:
@@ -108,6 +110,7 @@ app.listen(PORT, () => {
 });
 
  
+
 
 
 
