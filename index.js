@@ -59,7 +59,7 @@ app.post('/send-email', (req, res) => {
 
 
 app.get('/',(req,res)=>{
-  res.send("hello user")
+  res.send("<h1>Hello User</h1>")
 })
 
  const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbydZKEloPNHBcI9Y69R83_JEVTXzvvc4iIKjGrpTQSAQwOTpdc9pxCtFtQO6dA2Wjfj/exec";
@@ -108,6 +108,7 @@ app.listen(PORT, () => {
 });
 
  
+
 
 
 
